@@ -1,4 +1,4 @@
-import platformMailer from '../mailer/platform-mailer.js';
+import platformMailer from '../sender-files/platform-mailer.js';
 import Plan from '../model/platfrom-mdel.js';
 
 const plateformController = async (req, res) => {
@@ -20,10 +20,9 @@ const plateformController = async (req, res) => {
         await platformMailer(name, email, mobile, city, message);
 
         // Respond with success
-        return res.status(200).json({ message: 'Emails sent successfully!', code: newSubmission });
+        return res.status(200).json({ message: 'Emails sent successfully!'});
     } catch (error) {
         console.error('Error processing the request:', error);
-
         return new res.status(500).json({ message: 'Failed to send email or save data.' });
     }
 }

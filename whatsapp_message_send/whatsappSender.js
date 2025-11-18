@@ -1,28 +1,26 @@
-
 const sendWhatsAppMessage = async (name, email, mobile, city, serviceType, supportType)=> {
     try {
-        // Ensure only "New Connection" messages are sent
-        if (supportType.toLowerCase() !== "new connection") {
-            console.log("WhatsApp message not sent. Support Type is not 'new connection'.");
+        const allowedType = (process.env.WHATSAPP_SUPPORT_TYPE || "new connection").toLowerCase();
+
+        // Ensure only allowed support type messages are sent
+        if (supportType.toLowerCase() !== allowedType) {
+            console.log(`WhatsApp message not sent. Support Type must be '${allowedType}'.`);
             return;
         }
 
-        // Message content as an object (correct format)
         const messageData = {
-            name: name,
-            email: email,
-            mobile: mobile,
-            city: city,
-            serviceType: serviceType,
-            supportType: supportType
+            name,
+            email,
+            mobile,
+            city,
+            serviceType,
+            supportType
         };
 
-        // API URL & Credentials
         const whatsappApiUrl = process.env.NEXT_PUBLIC_WHATSAPP_API;
-        const type = "gtel-website-inquiry";
-        const source = "gtel-website";
+        const type = process.env.WHATSAPP_TYPE || "gtel-website-inquiry";
+        const source = process.env.WHATSAPP_SOURCE || "gtel-website";
 
-        // API Request
         const whatsappResponse = await fetch(whatsappApiUrl, {
             method: "POST",
             headers: {
@@ -35,7 +33,6 @@ const sendWhatsAppMessage = async (name, email, mobile, city, serviceType, suppo
             }),
         });
 
-        // Error Handling
         if (!whatsappResponse.ok) {
             const errorDetails = await whatsappResponse.text();
             console.error("WhatsApp API Error:", errorDetails);

@@ -6,7 +6,7 @@ const ContactSchema = new mongoose.Schema({
     mobile: { type: String, required: true },
     type: { type: String, required: true },
     subject: { type: String, required: true },
-    message: { type: String},
+    usermessage: { type: String, required: true },
 }, { timestamps: true });
 
 const Contact = mongoose.model('Contact', ContactSchema);

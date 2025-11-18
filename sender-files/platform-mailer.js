@@ -12,11 +12,10 @@ const platformMailer = async (name, email, mobile, city, message) => {
         },
     });
 
-    // const companyEmail = ["sales@gtel.in", "support@gtel.in"];
     const companyEmail = [process.env.COMPANY_EMAIL];
 
     const adminMailOptions = {
-        from: '"Gigantic" <info@gtel.in>',
+        from: `"${process.env.APP_NAME}" <${process.env.FROM_EMAIL}>`,
         to: companyEmail.join(","),
         subject: `Plan Inquiry: ${name}`,
         text: `
@@ -41,7 +40,7 @@ const platformMailer = async (name, email, mobile, city, message) => {
 
     // Email content for user
     const userMailOptions = {
-        from: '"Gigantic" <info@gtel.in>',
+        from: `"${process.env.APP_NAME}" <${process.env.FROM_EMAIL}>`,
         to: email, // User's email
 
         text: `
@@ -63,7 +62,7 @@ const platformMailer = async (name, email, mobile, city, message) => {
         
         <p><strong>Message:</strong> ${message}</p>
         <p>We will get back to you shortly.</p>
-        <p>Best regards,<br/>Gigantic Team</p>
+        <p>Best regards,<br/>${process.env.APP_NAME} Team</p>
       `,
     };
 

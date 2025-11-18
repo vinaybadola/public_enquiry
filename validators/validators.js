@@ -26,6 +26,7 @@ const ContactSchema = z.object({
     name: nameSchema,
     email: emailSchema,
     mobile: mobileSchema,
+    usermessage: z.string({ required_error: "Message is required" }).trim().optional(),
     type: z.string({ required_error: "Type is required" }).trim(),
     subject: z.string({ required_error: "Subject is required" }).trim(),
 });

@@ -1,6 +1,6 @@
 import NewConnection from '../model/email-model.js';
 // import sendWhatsAppMessage from '../whatsapp_message_send/whatsappSender.js';
-// import sendEmail from '../mailer/email-mailer.js';
+import sendEmail from '../sender-files/email-mailer.js';
 
 const emailtController = async (req, res) => {
     try {
@@ -18,12 +18,11 @@ const emailtController = async (req, res) => {
         });
         await newSubmission.save("gtel");
 
-
         // Send a WhatsApp message
-        // await sendWhatsAppMessage(name, email, mobile, city, serviceType, supportType);
+        // await sendWhatsAppMessage({name, email, mobile, city, serviceType, supportType});
 
         // Send a email message
-        // await sendEmail(name, email, mobile, city, serviceType, supportType);
+        await sendEmail({name, email, mobile, city, serviceType, supportType});
 
         return res.status(200).json({ message: 'Emails, group message, and individual WhatsApp message sent successfully!' });
 
