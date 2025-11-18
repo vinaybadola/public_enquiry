@@ -1,6 +1,8 @@
 import mongoose from 'mongoose';
 
-const NewConnectionSchema = new mongoose.Schema({
+//TODO:fix model name  after successful deployments
+
+const customerDataSchema = new mongoose.Schema({
     name: { type: String, required: true },
     email: { type: String, required: true },
     mobile: { type: String, required: true },
@@ -9,6 +11,6 @@ const NewConnectionSchema = new mongoose.Schema({
     supportType: { type: String, required: true },
 }, { timestamps: true });
 
-const NewConnection = mongoose.model('NewConnection', NewConnectionSchema);
+const customerDataModel = mongoose.model('NewConnection', customerDataSchema);
 
-export default NewConnection;
+export default customerDataModel;
