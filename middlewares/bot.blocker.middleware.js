@@ -1,4 +1,4 @@
-import { captchaSecretKey,botBlockerEnable } from "../config/env.config.js";
+import { captchaSecretKey,botBlockerEnable,verificationUrl} from "../config/env.config.js";
 import { errorResponseHandler } from "../helpers/response.handler.js";
 
 export async function botBlocker(req, res, next) {
@@ -12,13 +12,8 @@ export async function botBlocker(req, res, next) {
     if (!token) return errorResponseHandler(res, "captcha token missing", 400);
 
     try {
-        const verifyUrl = `https://www.google.com/recaptcha/api/siteverify`;
-
-        console.log("Verifying captcha with token:", token);
-        console.log('Using secret key:', captchaSecretKey);
-
         const response = await fetch(
-            verifyUrl,{
+            verificationUrl,{
                 method: "POST",
                 headers: { "Content-Type": "application/json" },
                 body: JSON.stringify({
