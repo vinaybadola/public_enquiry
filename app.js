@@ -3,7 +3,6 @@ const app = express();
 import routes from "./src/routes/index.js";
 
 import securityMiddleware from "./middlewares/security.middleware.js";
-import { environment } from "./config/env.config.js";
 
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
@@ -15,8 +14,7 @@ app.get("/health", (req, res) => {
 });
 
 app.use("/api/v1", routes);
-
-console.log("env", environment);
+app.use(express.static("public"));
 
 app.use((err, req, res, next) => {
     console.error(`Error caught by middleware: ${err.message}`);

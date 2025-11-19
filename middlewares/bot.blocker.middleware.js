@@ -1,20 +1,28 @@
-import { turnstileToken } from "../config/env.config.js";
+import { captchaSecretKey,botBlockerEnable } from "../config/env.config.js";
 import { errorResponseHandler } from "../helpers/response.handler.js";
 
 export async function botBlocker(req, res, next) {
-    const token = req.body.turnstileToken;
+    const token = req.body.captchaToken;
 
-    if (!token) return errorResponseHandler(res, "Turnstile token missing", 400);
+    if(!botBlockerEnable) {
+        console.log("Bot blocker is disabled. Skipping captcha verification.");
+        return next();
+    }
+
+    if (!token) return errorResponseHandler(res, "captcha token missing", 400);
 
     try {
+        const verifyUrl = `https://www.google.com/recaptcha/api/siteverify`;
+
+        console.log("Verifying captcha with token:", token);
+        console.log('Using secret key:', captchaSecretKey);
 
         const response = await fetch(
-            "https://challenges.cloudflare.com/turnstile/v0/siteverify",
-            {
+            verifyUrl,{
                 method: "POST",
                 headers: { "Content-Type": "application/json" },
                 body: JSON.stringify({
-                    secret: process.env.TURNSTILE_SECRET_KEY,
+                    secret: captchaSecretKey,
                     response: token,
                     remoteip: req.ip,
                 }),
@@ -23,15 +31,15 @@ export async function botBlocker(req, res, next) {
 
         const result = await response.json();
 
-        if (!result.success) return errorResponseHandler(res, "Turnstile verification failed", 400, "Turnstile-failed");
+        if (!result.success) return errorResponseHandler(res, "captcha verification failed", 400, "captcha-failed");
 
         if (result.score !== undefined && result.score < 0.5) {
-            return errorResponseHandler(res, "Turnstile failed (low score)", 403, "Turnstile-low-score");
+            return errorResponseHandler(res, "captcha failed (low score)", 403, "captcha-low-score");
         }
 
         next();
     } catch (err) {
-        console.error("Turnstile verification error:", err);
-        return errorResponseHandler(res, "Turnstile verification failed internally", 500, "Turnstile-internal-error");
+        console.error("captcha verification error:", err);
+        return errorResponseHandler(res, "captcha verification failed internally", 500, "captcha-internal-error");
     }
 }
