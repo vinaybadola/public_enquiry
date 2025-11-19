@@ -37,4 +37,5 @@ export const allowedCredentials = true;
 export const allowedHeaders = ["Authorization", "Content-Type", "X-Requested-With", "Accept", "Origin"];
 export const allowedExposedHeaders = ["Authorization"];
 
-export const turnstileToken = process.env.TURNSTILE_SECRET_KEY;
+export const captchaSecretKey = process.env.CAPTCHA_SECRET_KEY;
+export const botBlockerEnable = process.env.BOT_BLOCKER_ENABLE === 'true';
