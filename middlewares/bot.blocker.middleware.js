@@ -30,6 +30,9 @@ export async function botBlocker(req, res, next) {
 
         if (!result.success) return errorResponseHandler(res, "captcha verification failed", 400, "captcha-failed");
 
+        if (typeof result.score === "number" && result.score < 0.5) {
+            return errorResponseHandler(res, "captcha failed (low score)", 403, "captcha-low-score");
+        }
         if (result.score !== undefined && result.score < 0.5) {
             return errorResponseHandler(res, "captcha failed (low score)", 403, "captcha-low-score");
         }
