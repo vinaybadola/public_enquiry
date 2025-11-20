@@ -26,10 +26,15 @@ connectDB()
 const shutdown = (signal) => {
     console.log(`Received ${signal}. Closing server...`);
 
-    server.close(() => {
-        console.log("HTTP server shut down.");
-        process.exit(0);
-    });
+    if (server) {
+        server.close(() => {
+            console.log("HTTP server shut down.");
+            process.exit(0);
+        });
+    } else {
+        console.log("Server not initialized. Exiting...");
+        process.exit(1);
+    }
 
     setTimeout(() => {
         console.error("Force exit.");
