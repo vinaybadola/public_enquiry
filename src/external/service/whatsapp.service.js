@@ -12,12 +12,12 @@ export default class WhatsAppService {
                 return;
             }
 
-            // if(environment === 'DEVELOPMENT') {
-            //     console.log("Prepared WhatsApp Message Data:", prepareMessageData);
-            //     return;
-            // }
-
-            console.log("Sending WhatsApp Message...", whatsappApiUrl, whatsappType, whatsappSupportType);
+            if(environment === 'DEVELOPMENT') {
+                console.log("Sending WhatsApp Message...", whatsappApiUrl, whatsappType, whatsappSupportType);
+                console.log("Prepared WhatsApp Message Data:", prepareMessageData);
+                console.log("WhatsApp message not sent in DEVELOPMENT environment.");
+                return;
+            }
 
             const whatsappResponse = await fetch(whatsappApiUrl, {
                 method: "POST",
