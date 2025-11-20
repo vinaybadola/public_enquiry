@@ -20,16 +20,8 @@ export const InternalEmailSupport = process.env.INTERNAL_EMAIL_SUPPORT;
 export const InternalEmailSales = process.env.INTERNAL_EMAIL_SALES;
 
 export const allowedOrigins = [
-    'https://hradmin.gtel.in',
-    'http://localhost:3000',
-    'http://localhost:3001',
-    'https://www.gtel.in',
-    'http://localhost:8003',
-    'http://127.0.0.1:5500',
-    'https://portal.gtel.in',
-    'https://cp.gtel.in',
-    'https://sales.gtel.in',
-    'https://noc.gtel.in'
+    "https://gtel.in",
+    "https://gispl.net",
 ];
 
 export const allowedMethods = ["GET", "POST", "PUT", "DELETE", "PATCH"];
